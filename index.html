@@ -1,10 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+<!-- <script>
+    import "bulma/css/bulma.css";
+    export default{};
+</script> -->
 <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8">  
     <title>Document</title>
+    <style type="text/css">
+        table.island{
+            border-collapse: collapse;
+        }
+        table.island tbody tr td{
+            width: 100px;
+            height: 40px;
+        }
+    </style>
 </head>
 <body>
  
@@ -14,30 +27,107 @@
                 {{ error }}
             </div>
             <div class="columns" v-else>
-                <div class="column">
-                    <div class="message" v-for="bpi_info in info.data.bpi">
+                <island-component v-bind:data="info" v-bind:ids="335"></island-component>
+                <island-component v-bind:data="info" v-bind:ids="336"></island-component>
+<!--                 <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>SEQ</th>
+                            <th>ID</th>
+                            <th>氏名</th>
+                            <th>内線</th>
+                            <th></th>
+                            <th>IP</th>
+                            <th>電話</th>
+                            <th>メール</th>
+                            <th>メモ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in info">
+                            <td>{{item.seq}}</td>
+                            <td>{{item.id}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.interPhone}}</td>
+                            <td>{{item.status}}</td>
+                            <td>{{item.ip}}</td>
+                            <td>{{item.phone}}</td>
+                            <td>{{item.mail1}}</td>
+                            <td>{{item.memo1}}<br />{{item.memo2}}</td>
+                        </tr>
+                    </tbody>
+                </table> -->
+
+<!--                 <div class="column">
+                    <div class="message" v-for="item in info.data">
                         <div class="message-header">
                             <p>
-                                {{ bpi_info.code }}のレート
+                                {{ item.name }}
                             </p>
  
                         </div>
                         <div class="message-body">
-                            レート：{{ bpi_info.rate }}<br/>
-                            詳細：{{ bpi_info.description }}
+                            temperatureC：{{ item.id }}<br/>
+                            temperatureF：{{ item.memo1 }}<br/>
+                            summary：{{ item.summary }}
                         </div>
                     </div>
  
-                    <!-- add to stream form -->
                     <add-to-stream @customcompleted="addStatus"></add-to-stream>
  
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
     <script type="text/javascript">
+    
+        var deskComponent = {
+            props: ['item'],
+            template:`<div><a href="*">{{item.name}}</a><br /><a href="*">{{item.interPhone}}</a></div>`
+        }
+        
+        Vue.component('island-component', {
+            data: function(){
+                return {
+                    myData: null
+                }
+            },
+            props: {
+                'data': Array,
+                'ids': {
+                    type: String,
+                    default: null
+                }
+            },
+            template:`<div>
+                      <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth island">
+                        <thead></thead>
+                        <tbody>
+                            <tr>
+                                <td><desk-component v-bind:item="myData[0]"></desk-component></td>
+                                <td><desk-component v-bind:item="myData[1]"></desk-component></td>
+                            </tr>
+                            <tr>
+                                <td><desk-component v-bind:item="myData[2]"></desk-component></td>
+                                <td><desk-component v-bind:item="myData[3]"></desk-component></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>`,
+            created: function(){
+/*                 axios
+                    .get('http://localhost:59434/api/wbs2/' + this.ids)
+                    .then(response => (this.myData = response.data))
+                    .catch(error => (this.error = error)) */
+                    this.data.filter((x) => this.substr(0, x.length) == x)
+                    this.myData = this.data.filter(this.ids)
+            },
+            components: {
+                'desk-component': deskComponent
+            }
+        })
         new Vue({
           el: '#app',
           data () {
@@ -46,10 +136,18 @@
               error: null
           }
       },
-      mounted () {
+      methods:{
+        update: function(){
         axios
-        .get('https://api.coindesk.com/v1/bpi/currentprice.json')
-        .then(response => (this.info = response))
+            .delete('http://localhost:59434/api/wbs2/33200')
+            .then(response => (alert("更新完了")))
+            .error(response => (alert("エラー")))
+        }
+      },
+      created: function() {
+        axios
+        .get('http://localhost:59434/api/wbs2/33')
+        .then(response => (this.info = response.data))
         .catch(error => (this.error = error))
     }
 })
