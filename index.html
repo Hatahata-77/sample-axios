@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+<link rel="stylesheet" href="https://jenil.github.io/bulmaswatch/solar/bulmaswatch.min.css">
++
 <!-- <script>
     import "bulma/css/bulma.css";
     export default{};
 </script> -->
 <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-<head>
+
     <meta charset="UTF-8">  
     <title>Document</title>
     <style type="text/css">
         table.island{
             border-collapse: collapse;
+            margin-left: 5px;
         }
         table.island tbody tr td{
             width: 100px;
-            height: 40px;
+            height: 5
+            0px;
         }
     </style>
 </head>
@@ -27,8 +32,13 @@
                 {{ error }}
             </div>
             <div class="columns" v-else>
-                <island-component v-bind:data="info" v-bind:ids="335"></island-component>
-                <island-component v-bind:data="info" v-bind:ids="336"></island-component>
+                <island-component v-bind:info="info" v-bind:ids="331"></island-component>
+                <island-component v-bind:info="info" v-bind:ids="332"></island-component>
+                <island-component v-bind:info="info" v-bind:ids="333"></island-component>
+                <island-component v-bind:info="info" v-bind:ids="334"></island-component>
+                <island-component v-bind:info="info" v-bind:ids="335"></island-component>
+                <island-component v-bind:info="info" v-bind:ids="336"></island-component>
+                <island-component v-bind:info="info" v-bind:ids="337"></island-component>
 <!--                 <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
                     <thead>
                         <tr>
@@ -95,34 +105,50 @@
                 }
             },
             props: {
-                'data': Array,
+                'info': {
+                    default:null
+                },
                 'ids': {
-                    type: String,
                     default: null
                 }
             },
             template:`<div>
-                      <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth island">
+                        <div class="table is-bordered" style=""><desk-component v-bind:item="myData[0]"></div>
+                        <table class="table is-bordered is-narrow is-hoverable is-fullwidth island">
                         <thead></thead>
                         <tbody>
                             <tr>
-                                <td><desk-component v-bind:item="myData[0]"></desk-component></td>
                                 <td><desk-component v-bind:item="myData[1]"></desk-component></td>
+                                <td><desk-component v-bind:item="myData[2]"></desk-component></td>
                             </tr>
                             <tr>
-                                <td><desk-component v-bind:item="myData[2]"></desk-component></td>
                                 <td><desk-component v-bind:item="myData[3]"></desk-component></td>
+                                <td><desk-component v-bind:item="myData[4]"></desk-component></td>
+                            </tr>
+                            <tr>
+                                <td><desk-component v-bind:item="myData[5]"></desk-component></td>
+                                <td><desk-component v-bind:item="myData[6]"></desk-component></td>
+                            </tr>
+                            <tr>
+                                <td><desk-component v-bind:item="myData[7]"></desk-component></td>
+                                <td><desk-component v-bind:item="myData[8]"></desk-component></td>
                             </tr>
                         </tbody>
                     </table>
+
                     </div>`,
             created: function(){
-/*                 axios
+                   axios
                     .get('http://localhost:59434/api/wbs2/' + this.ids)
                     .then(response => (this.myData = response.data))
-                    .catch(error => (this.error = error)) */
-                    this.data.filter((x) => this.substr(0, x.length) == x)
-                    this.myData = this.data.filter(this.ids)
+                    .catch(error => (this.error = error))
+//                    this.myData = this.data.filter(this.ids)
+                this.myData = this.info[0].seq
+/*                     this.myData = this.data.filter(function(item, index){
+                        return item.seq.substr(0, this.ids.length) == this.ids
+                        //if (item.seq.substr(0, this.ids) == this.ids) return true
+                        //return true
+                    }) */
             },
             components: {
                 'desk-component': deskComponent

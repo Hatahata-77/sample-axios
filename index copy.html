@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+<link rel="stylesheet" href="https://unpkg.com/bulmaswatch/darkly/bulmaswatch.min.css">
+<!-- <script>
+    import "bulma/css/bulma.css";
+    export default{};
+</script> -->
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+    <meta charset="UTF-8">  
+    <title>Document</title>
+    <style type="text/css">
+        table.island{
+            border-collapse: collapse;
+            margin-left: 5px;
+        }
+        table.island tbody tr td{
+            width: 100px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+ 
+    <div id="app" class="container" style="padding-top: 64px;">
+        <div class="container">
+            <div class="error" v-if="error">
+                {{ error }}
+            </div>
+            <div class="columns" v-else>
+                {{ info }}
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <script type="text/javascript">
+    new Vue({
+        el: '#app',
+        data () {
+            return {
+                info: null,
+                filterInfo: null,
+                error: null
+            }
+        },
+        created: function() {
+            axios
+            .get('http://localhost:59434/api/wbs2/')
+            .then(response => (this.info = response.data))
+            .catch(error => (this.error = error))
+            //this.filterInfo = this.info.filter(item => item.seq.substr(0,3) == '335')
+        }
+    })
+</script>
+</body>
+</html>
