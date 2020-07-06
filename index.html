@@ -39,7 +39,7 @@
                 <island-component v-bind:info="info" v-bind:ids="335"></island-component>
                 <island-component v-bind:info="info" v-bind:ids="336"></island-component>
                 <island-component v-bind:info="info" v-bind:ids="337"></island-component>
-<!--                 <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                <!--                 <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
                     <thead>
                         <tr>
                             <th>SEQ</th>
@@ -172,7 +172,7 @@
       },
       created: function() {
         axios
-        .get('http://localhost:59434/api/wbs2/33')
+        .get('http://localhost:59434/api/wbs2/')
         .then(response => (this.info = response.data))
         .catch(error => (this.error = error))
     }
